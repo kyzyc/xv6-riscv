@@ -2,9 +2,11 @@
 _*
 *.o
 *.d
+*.idx
 *.asm
 *.sym
 *.img
+launch.json
 vectors.S
 bootblock
 entryother
