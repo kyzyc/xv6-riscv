@@ -164,10 +164,24 @@ QEMUOPTS += -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
 qemu: $K/kernel fs.img
 	$(QEMU) $(QEMUOPTS)
 
-.gdbinit: .gdbinit.tmpl-riscv
-	sed "s/:1234/:$(GDBPORT)/" < $^ > $@
-
 qemu-gdb: $K/kernel .gdbinit fs.img
 	@echo "*** Now run 'gdb' in another window." 1>&2
 	$(QEMU) $(QEMUOPTS) -S $(QEMUGDB)
 
+qemu-vscode: $K/kernel .gdbinit fs.img launch.json
+	@echo "*** Now attach to qemu in the debug console ofb vscode." 1>&2
+	@echo "file kernel/kernel" > .gdbinit
+	$(QEMU) -serial mon:stdio $(QEMUOPTS) -S $(QEMUGDB)
+
+.PHONY: .gdbinit
+.gdbinit: .gdbinit.tmpl-riscv
+	cp .gdbinit.tmpl-riscv .gdbinit
+	if [ -f /home/zyc/projects/xv6/xv6-riscv/.gdbinit ]; then sed -i "s/# source/source/" /home/zyc/projects/xv6/xv6-riscv/.gdbinit; fi
+	sed "s/localhost:1234/localhost:$(GDBPORT)/" < $^ > $@
+
+launch.json: launch.json.tmpl
+	mkdir -p .vscode
+	if [ -f .gdbinit ]; then rm .gdbinit; fi
+	cp .gdbinit.tmpl-riscv .gdbinit
+	sed -i "s/^source/# source/" /home/zyc/projects/xv6/xv6-riscv/.gdbinit
+	sed "s/localhost:1234/localhost:$(GDBPORT)/" < $^ > .vscode/$@
