@@ -1,3 +1,20 @@
+# New changes to xv6
+## lab1 Xv6 and Unix utilities 
+(from [2023 6.1810](https://pdos.csail.mit.edu/6.1810/2023/labs/util.html))
+- [ ] sleep
+- [ ] pingpong
+- [ ] primes
+- [ ] find
+- [ ] xargs
+- [ ] uptime
+- [ ] support regular expressions in name matching for find
+- [ ] modify the shell to not print a $ when processing shell commands from a file
+- [ ] modify the shell to support wait
+- [ ] modify the shell to support sub-shells by implementing "(" and ")" 
+- [ ] modify the shell to support tab completion
+- [ ] modify the shell to keep a history of passed shell commands
+
+# Old stuff
 xv6 is a re-implementation of Dennis Ritchie's and Ken Thompson's Unix
 Version 6 (v6).  xv6 loosely follows the structure and style of v6,
 but is implemented for a modern RISC-V multiprocessor using ANSI C.
